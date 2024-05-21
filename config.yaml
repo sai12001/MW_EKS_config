@@ -2,35 +2,35 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: game-2048
+  name: maintwizapp
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  namespace: game-2048
-  name: deployment-2048
+  namespace: maintwizapp
+  name: deployment-3333
 spec:
   selector:
     matchLabels:
-      app.kubernetes.io/name: app-2048
+      app.kubernetes.io/name: app-3333
   replicas: 5
   template:
     metadata:
       labels:
-        app.kubernetes.io/name: app-2048
+        app.kubernetes.io/name: app-3333
     spec:
       containers:
-      - image: public.ecr.aws/l6m2t8p7/docker-2048:latest
+      - image: ajithbarathi2000/pulice_service:microservice_login
         imagePullPolicy: Always
-        name: app-2048
+        name: app-3333
         ports:
         - containerPort: 80
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  namespace: game-2048
-  name: service-2048
+  namespace: maintwizapp
+  name: service-3333
 spec:
   ports:
     - port: 80
@@ -38,13 +38,13 @@ spec:
       protocol: TCP
   type: NodePort
   selector:
-    app.kubernetes.io/name: app-2048
+    app.kubernetes.io/name: app-3333
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  namespace: game-2048
-  name: ingress-2048
+  namespace: maintwizapp
+  name: ingress-3333
   annotations:
     alb.ingress.kubernetes.io/scheme: internet-facing
     alb.ingress.kubernetes.io/target-type: ip
@@ -57,6 +57,6 @@ spec:
           pathType: Prefix
           backend:
             service:
-              name: service-2048
+              name: service-3333
               port:
                 number: 80
