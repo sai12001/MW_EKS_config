@@ -1,0 +1,42 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: woservice
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: woservice
+  template:
+    metadata:
+      labels:
+        app: woservice
+    spec:
+      containers:
+      - name: woservice
+        image: ajithbarathi2000/pulice_service:microservice
+        ports:
+        - containerPort: 3334
+        resources:
+          requests:
+            cpu: 10m
+            memory: 128Mi
+          limits:
+            cpu: 100m
+            memory: 256Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: woservice
+  namespace: default
+spec:
+  selector:
+    app: woservice
+  ports:
+  - name: http
+    port: 3334
+    targetPort: 3334
+  type: ClusterIP

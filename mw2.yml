@@ -1,0 +1,42 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: woservice-login
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: woservice-login
+  template:
+    metadata:
+      labels:
+        app: woservice-login
+    spec:
+      containers:
+      - name: woservice-login
+        image: ajithbarathi2000/pulice_service:microservice_login3
+        ports:
+        - containerPort: 3333
+        resources:
+          requests:
+            cpu: 10m
+            memory: 128Mi
+          limits:
+            cpu: 100m
+            memory: 256Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: woservice-login
+  namespace: default
+spec:
+  selector:
+    app: woservice-login
+  ports:
+  - name: http
+    port: 80
+    targetPort: 3333
+  type: LoadBalancer
